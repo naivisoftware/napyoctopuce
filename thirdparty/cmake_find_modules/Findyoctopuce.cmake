@@ -1,8 +1,8 @@
 find_path(
     YOCTOPUCE_DIR
     NAMES README.txt
-    HINTS ${NAP_ROOT}/system_modules/napyoctopuce/thirdparty/yoctopuce
-    )
+    HINTS ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/yoctopuce
+)
 
 find_path(
     YOCTOPUCE_INCLUDE_DIR
