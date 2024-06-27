@@ -11,7 +11,7 @@ if(NAP_BUILD_CONTEXT MATCHES "source")
     endif()
 
     # Package yoctopuce into platform release
-    set(yoctopuce_dest system_modules/${PROJECT_NAME}/thirdparty/yoctopuce)
+    set(yoctopuce_dest modules/${PROJECT_NAME}/thirdparty/yoctopuce)
     install(FILES ${YOCTOPUCE_DIR}/README.txt DESTINATION ${yoctopuce_dest}/)
     install(DIRECTORY ${YOCTOPUCE_INCLUDE_DIR}/ DESTINATION ${yoctopuce_dest}/source/Sources
             FILES_MATCHING PATTERN "*.h")
@@ -28,7 +28,7 @@ if(NAP_BUILD_CONTEXT MATCHES "source")
             install(CODE "execute_process(COMMAND ${CMAKE_INSTALL_NAME_TOOL}
                                                   -add_rpath
                                                   @loader_path/../../../../thirdparty/yoctopuce/bin
-                                                  ${CMAKE_INSTALL_PREFIX}/system_modules/napyoctopuce/lib/${build_type}/napyoctopuce.dylib
+                                                  ${CMAKE_INSTALL_PREFIX}/modules/napyoctopuce/lib/${build_type}/napyoctopuce.dylib
                                           ERROR_QUIET
                                           )")
         endforeach()
@@ -37,6 +37,7 @@ else()
     set(MODULE_EXTRA_LIBS yoctopuce)
 
     add_include_to_interface_target(napyoctopuce ${YOCTOPUCE_INCLUDE_DIRS})
+    target_include_directories(${PROJECT_NAME} PUBLIC src ${YOCTOPUCE_INCLUDE_DIRS})
 
     # Install yoctopuce lib into packaged app
     if(WIN32)
@@ -56,4 +57,5 @@ else()
     endif()
 
     install(FILES ${YOCTOPUCE_LICENSE_FILES} DESTINATION licenses/yoctopuce)
+    target_link_libraries(${PROJECT_NAME} yoctopuce)
 endif()
